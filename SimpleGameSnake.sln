@@ -5,6 +5,8 @@ VisualStudioVersion = 17.1.32127.271
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleGameSnake.ConsoleUI", "SimpleGameSnake.ConsoleUI\SimpleGameSnake.ConsoleUI.csproj", "{F6493F2A-E30B-4365-880D-657425BD276A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleGameSnake.GameLibrary", "SimpleGameSnake.GameLibrary\SimpleGameSnake.GameLibrary.csproj", "{F22DBD88-6F88-4B60-9B5F-7B090068EEDE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{F6493F2A-E30B-4365-880D-657425BD276A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6493F2A-E30B-4365-880D-657425BD276A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6493F2A-E30B-4365-880D-657425BD276A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F22DBD88-6F88-4B60-9B5F-7B090068EEDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F22DBD88-6F88-4B60-9B5F-7B090068EEDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F22DBD88-6F88-4B60-9B5F-7B090068EEDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F22DBD88-6F88-4B60-9B5F-7B090068EEDE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
