@@ -6,7 +6,7 @@ namespace SimpleGameSnake.ConsoleUI
 {
     internal class Program
     {
-        private const int UPDATEPERSECONDS = 300;
+        private const int UPDATEPERSECONDS = 150;
         private const int FIELD_WIDTH = 80;
         private const int FIELD_HEIGHT = 25;
 
@@ -25,8 +25,12 @@ namespace SimpleGameSnake.ConsoleUI
             Console.Clear();
             ShowField();
             ShowSnake(snake);
+
+            Task.Run(() => ListenKeys(snake));
+
             while (true)
             {
+
                 MoveSnake(snake);
 
                 await Task.Delay(UPDATEPERSECONDS);
@@ -86,7 +90,30 @@ namespace SimpleGameSnake.ConsoleUI
 
         private static void MoveSnake(Snake snake)
         {
-            
+            snake.MoveSnake();
+            DisplaySymbol(snake.Head.X, snake.Head.Y, SelectHeadSymbol(snake.CurrentDirection));
+            DisplaySymbol(snake.PrevHead.X, snake.PrevHead.Y, SNAKE_BODY_SYMBOL);
+            DisplaySymbol(snake.LastPart.X, snake.LastPart.Y, " ");
+        }
+
+        private static Task ListenKeys(Snake snake)
+        {
+            while (true)
+            {
+                var key = Console.ReadKey();
+
+                if (key.Key == ConsoleKey.UpArrow)
+                    snake.ChangeDirection(Direction.Top);
+
+                if (key.Key == ConsoleKey.DownArrow)
+                    snake.ChangeDirection(Direction.Bottom);
+
+                if (key.Key == ConsoleKey.LeftArrow)
+                    snake.ChangeDirection(Direction.Left);
+
+                if (key.Key == ConsoleKey.RightArrow)
+                    snake.ChangeDirection(Direction.Right);
+            }
         }
     }
 }
