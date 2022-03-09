@@ -38,7 +38,18 @@ namespace SimpleGameSnake.GameLibrary
 
         public void ChangeDirection(Direction newDirection)
         {
-            //TODO Проверка на противоположную сторону
+            if (CurrentDirection == Direction.Top && newDirection == Direction.Bottom)
+                return;
+
+            if (CurrentDirection == Direction.Bottom && newDirection == Direction.Top)
+                return;
+
+            if (CurrentDirection == Direction.Right && newDirection == Direction.Left)
+                return;
+
+            if (CurrentDirection == Direction.Left && newDirection == Direction.Right)
+                return;
+
             CurrentDirection = newDirection;
         }
 
