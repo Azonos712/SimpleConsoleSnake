@@ -94,16 +94,23 @@ namespace SimpleGameSnake.ConsoleUI
         private static void MoveSnake(Snake snake)
         {
             snake.MoveSnake();
+            ScreenEdgeCheck(snake);
 
-            //Console.SetCursorPosition(snake.Head.X, snake.Head.Y);
-            //char nextSymbol = Convert.ToChar(Console.Read());
-            //if (nextSymbol == VERTICAL_WALL_SYMBOL || nextSymbol == HORIZONTAL_WALL_SYMBOL)
-            //    _game.StopGame();
-            //if(snake.Head.X, snake.Head.Y,)
+            if (_game.IsGameOver)
+                return;
 
             DisplaySymbol(snake.Head.X, snake.Head.Y, SelectHeadSymbol(snake.CurrentDirection));
             DisplaySymbol(snake.PrevHead.X, snake.PrevHead.Y, SNAKE_BODY_SYMBOL);
             DisplaySymbol(snake.LastPart.X, snake.LastPart.Y, ' ');
+        }
+
+        private static void ScreenEdgeCheck(Snake snake)
+        {
+            if (snake.Head.X == 0 || snake.Head.X == FIELD_WIDTH - 1)
+                _game.StopGame();
+
+            if (snake.Head.Y == 0 || snake.Head.Y == FIELD_HEIGHT - 1)
+                _game.StopGame();
         }
 
         private static Task ListenKeys(Snake snake)
