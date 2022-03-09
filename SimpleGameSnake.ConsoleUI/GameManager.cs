@@ -6,7 +6,18 @@ using System.Threading.Tasks;
 
 namespace SimpleGameSnake.ConsoleUI
 {
-    internal class GameManager
+    public class GameManager
     {
+        public bool IsGameOver { get; private set; }
+
+        public GameManager()
+        {
+            IsGameOver = false;
+        }
+
+        public void StopGame()
+        {
+            IsGameOver = true;
+        }
     }
 }

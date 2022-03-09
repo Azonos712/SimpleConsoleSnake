@@ -1,5 +1,6 @@
 ﻿using SimpleGameSnake.GameLibrary;
 using System;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace SimpleGameSnake.ConsoleUI
@@ -10,17 +11,19 @@ namespace SimpleGameSnake.ConsoleUI
         private const int FIELD_WIDTH = 80;
         private const int FIELD_HEIGHT = 25;
 
-        private const string VERTICAL_WALL_SYMBOL = "│";
-        private const string HORIZONTAL_WALL_SYMBOL = "──";
-        private const string SNAKE_HEAD_TOP_SYMBOL = "^";
-        private const string SNAKE_HEAD_BOTTOM_SYMBOL = "v";
-        private const string SNAKE_HEAD_LEFT_SYMBOL = "<";
-        private const string SNAKE_HEAD_RIGHT_SYMBOL = ">";
-        private const string SNAKE_BODY_SYMBOL = "o";
+        private const char VERTICAL_WALL_SYMBOL = '│';
+        private const char HORIZONTAL_WALL_SYMBOL = '─';
+        private const char SNAKE_HEAD_TOP_SYMBOL = '^';
+        private const char SNAKE_HEAD_BOTTOM_SYMBOL = 'v';
+        private const char SNAKE_HEAD_LEFT_SYMBOL = '<';
+        private const char SNAKE_HEAD_RIGHT_SYMBOL = '>';
+        private const char SNAKE_BODY_SYMBOL = 'o';
 
+        private static GameManager _game;
         static async Task Main(string[] args)
         {
             Snake snake = new Snake(FIELD_WIDTH / 2, FIELD_HEIGHT / 2);
+            _game = new GameManager();
             ConsoleSettingUp();
             Console.Clear();
             ShowField();
@@ -28,7 +31,7 @@ namespace SimpleGameSnake.ConsoleUI
 
             Task.Run(() => ListenKeys(snake));
 
-            while (true)
+            while (!_game.IsGameOver)
             {
 
                 MoveSnake(snake);
@@ -62,7 +65,7 @@ namespace SimpleGameSnake.ConsoleUI
             }
         }
 
-        private static void DisplaySymbol(int x, int y, string symbol)
+        private static void DisplaySymbol(int x, int y, char symbol)
         {
             Console.SetCursorPosition(x, y);
             Console.Write(symbol);
@@ -76,7 +79,7 @@ namespace SimpleGameSnake.ConsoleUI
                 DisplaySymbol(snake.Head.X - i, snake.Head.Y, SNAKE_BODY_SYMBOL);
         }
 
-        private static string SelectHeadSymbol(Direction direction)
+        private static char SelectHeadSymbol(Direction direction)
         {
             return direction switch
             {
@@ -84,21 +87,28 @@ namespace SimpleGameSnake.ConsoleUI
                 Direction.Bottom => SNAKE_HEAD_BOTTOM_SYMBOL,
                 Direction.Left => SNAKE_HEAD_LEFT_SYMBOL,
                 Direction.Right => SNAKE_HEAD_RIGHT_SYMBOL,
-                _ => ".",
+                _ => '.',
             };
         }
 
         private static void MoveSnake(Snake snake)
         {
             snake.MoveSnake();
+
+            //Console.SetCursorPosition(snake.Head.X, snake.Head.Y);
+            //char nextSymbol = Convert.ToChar(Console.Read());
+            //if (nextSymbol == VERTICAL_WALL_SYMBOL || nextSymbol == HORIZONTAL_WALL_SYMBOL)
+            //    _game.StopGame();
+            //if(snake.Head.X, snake.Head.Y,)
+
             DisplaySymbol(snake.Head.X, snake.Head.Y, SelectHeadSymbol(snake.CurrentDirection));
             DisplaySymbol(snake.PrevHead.X, snake.PrevHead.Y, SNAKE_BODY_SYMBOL);
-            DisplaySymbol(snake.LastPart.X, snake.LastPart.Y, " ");
+            DisplaySymbol(snake.LastPart.X, snake.LastPart.Y, ' ');
         }
 
         private static Task ListenKeys(Snake snake)
         {
-            while (true)
+            while (!_game.IsGameOver)
             {
                 var key = Console.ReadKey();
 
@@ -114,6 +124,8 @@ namespace SimpleGameSnake.ConsoleUI
                 if (key.Key == ConsoleKey.RightArrow)
                     snake.ChangeDirection(Direction.Right);
             }
+
+            return Task.CompletedTask;
         }
     }
 }
