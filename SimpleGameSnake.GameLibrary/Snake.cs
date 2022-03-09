@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SimpleGameSnake.GameLibrary
 {
     public class Snake
     {
-        public Point Head { get; private set; }
+        private Point _head;
+        public Point Head { get => _head; }
         public List<Point> Body { get; private set; }
         public Point PrevHead { get; private set; }
         public Point LastPart { get; private set; }
@@ -18,7 +20,7 @@ namespace SimpleGameSnake.GameLibrary
         public Snake(int headX, int headY)
         {
             Body = new List<Point>();
-            Head = new Point(headX, headY);
+            _head = new Point(headX, headY);
 
             TailLength = 2;
             //LastPart = new Point(headX - TailLength, Head.Y);
@@ -43,23 +45,22 @@ namespace SimpleGameSnake.GameLibrary
         public void MoveSnake()
         {
             PrevHead = Head;
-            var temp = Head;
+
             switch (CurrentDirection)
             {
                 case Direction.Top:
-                    temp.Y--;
+                    _head.Y--;
                     break;
                 case Direction.Bottom:
-                    temp.Y++;
+                    _head.Y++;
                     break;
                 case Direction.Left:
-                    temp.X--;
+                    _head.X--;
                     break;
                 case Direction.Right:
-                    temp.X++;
+                    _head.X++;
                     break;
             }
-            Head = temp;
 
             LastPart = Body.Last();
             Body.RemoveAt(Body.Count - 1);
