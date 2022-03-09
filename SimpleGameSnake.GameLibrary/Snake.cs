@@ -31,7 +31,7 @@ namespace SimpleGameSnake.GameLibrary
             CurrentDirection = Direction.Right;
         }
 
-        public void Eat(Food food)
+        public void Eat()
         {
 
         }

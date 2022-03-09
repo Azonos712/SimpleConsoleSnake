@@ -18,8 +18,10 @@ namespace SimpleGameSnake.ConsoleUI
         private const char SNAKE_HEAD_LEFT_SYMBOL = '<';
         private const char SNAKE_HEAD_RIGHT_SYMBOL = '>';
         private const char SNAKE_BODY_SYMBOL = 'o';
+        private const char FOOD_SYMBOL = '@';
 
         private static GameManager _game;
+
         static async Task Main(string[] args)
         {
             Snake snake = new Snake(FIELD_WIDTH / 2, FIELD_HEIGHT / 2);
@@ -33,11 +35,22 @@ namespace SimpleGameSnake.ConsoleUI
 
             while (!_game.IsGameOver)
             {
+                if (_game.IsFoodOnField == false)
+                    GenerateFood();
+
+                DisplaySymbol(_game.Food.Position.X, _game.Food.Position.Y, FOOD_SYMBOL);
 
                 MoveSnake(snake);
 
+                ShowScore();
+
                 await Task.Delay(UPDATEPERSECONDS);
             }
+        }
+
+        private static void GenerateFood()
+        {
+            _game.CreateFood(1, FIELD_WIDTH - 1, 1, FIELD_HEIGHT - 1);
         }
 
         private static void ConsoleSettingUp()
@@ -45,7 +58,7 @@ namespace SimpleGameSnake.ConsoleUI
             //Console.BackgroundColor = ConsoleColor.Green;
             //Console.ForegroundColor = ConsoleColor.Black;
             Console.OutputEncoding = Encoding.UTF8;
-            Console.SetWindowSize(FIELD_WIDTH, FIELD_HEIGHT);
+            Console.SetWindowSize(FIELD_WIDTH, FIELD_HEIGHT + 4);
             Console.CursorVisible = false;
         }
 
@@ -94,7 +107,10 @@ namespace SimpleGameSnake.ConsoleUI
         private static void MoveSnake(Snake snake)
         {
             snake.MoveSnake();
+
             ScreenEdgeCheck(snake);
+
+            FoodCheck(snake);
 
             if (_game.IsGameOver)
                 return;
@@ -111,6 +127,22 @@ namespace SimpleGameSnake.ConsoleUI
 
             if (snake.Head.Y == 0 || snake.Head.Y == FIELD_HEIGHT - 1)
                 _game.StopGame();
+        }
+
+        private static void FoodCheck(Snake snake)
+        {
+            if (snake.Head.X == _game.Food.Position.X && snake.Head.Y == _game.Food.Position.Y)
+            {
+                _game.PutAwayFood();
+                snake.Eat();
+            }
+
+        }
+
+        private static void ShowScore()
+        {
+            Console.SetCursorPosition(3, FIELD_HEIGHT + 1);
+            Console.WriteLine($"Score - {_game.Score}");
         }
 
         private static Task ListenKeys(Snake snake)
