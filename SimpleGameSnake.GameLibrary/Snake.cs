@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace SimpleGameSnake.GameLibrary
+﻿namespace SimpleGameSnake.GameLibrary
 {
     public class Snake
     {
@@ -19,21 +12,14 @@ namespace SimpleGameSnake.GameLibrary
 
         public Snake(int headX, int headY)
         {
-            Body = new List<Point>();
             _head = new Point(headX, headY);
-
             TailLength = 2;
-            //LastPart = new Point(headX - TailLength, Head.Y);
 
+            Body = new List<Point>();
             Body.Add(new Point(headX - (TailLength - 1), Head.Y));
             Body.Add(new Point(headX - TailLength, Head.Y));
 
             CurrentDirection = Direction.Right;
-        }
-
-        public void Eat()
-        {
-            Body.Add(LastPart);
         }
 
         public void ChangeDirection(Direction newDirection)
@@ -60,25 +46,42 @@ namespace SimpleGameSnake.GameLibrary
         {
             PrevHead = Head;
 
-            switch (CurrentDirection)
+            _ = CurrentDirection switch
             {
-                case Direction.Up:
-                    _head.Y--;
-                    break;
-                case Direction.Down:
-                    _head.Y++;
-                    break;
-                case Direction.Left:
-                    _head.X--;
-                    break;
-                case Direction.Right:
-                    _head.X++;
-                    break;
-            }
+                Direction.Up => _head.Y--,
+                Direction.Down => _head.Y++,
+                Direction.Left => _head.X--,
+                Direction.Right => _head.X++,
+                _ => throw new NotImplementedException()
+            };
 
             LastPart = Body.Last();
             Body.RemoveAt(Body.Count - 1);
             Body.Insert(0, PrevHead);
+        }
+        public bool IsReachTheEndOfField(int width, int height)
+        {
+            return _head.X == 0 || _head.X == width - 1 || _head.Y == 0 || _head.Y == height - 1;
+        }
+
+        public bool IsCrashIntoBody()
+        {
+            return Body.Contains(_head);
+        }
+
+        public bool IsFoodAhead(int x, int y)
+        {
+            if (_head.X == x && _head.Y == y)
+            {
+                Eat();
+                return true;
+            }
+            return false;
+        }
+
+        private void Eat()
+        {
+            Body.Add(LastPart);
         }
     }
 }

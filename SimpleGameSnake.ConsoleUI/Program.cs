@@ -8,7 +8,7 @@ namespace SimpleGameSnake.ConsoleUI
         {
             ConsoleSettings settings = new ConsoleSettings();
             ConsoleGraphics graphics = new ConsoleGraphics();
-            GameManager game = new GameManager(settings.FieldWidth / 2, settings.FieldHeight / 2);
+            GameManager game = new GameManager(settings.FieldWidth, settings.FieldHeight);
 
             Console.WriteLine("Press any key to start...");
             Console.ReadKey();
@@ -32,11 +32,10 @@ namespace SimpleGameSnake.ConsoleUI
         {
             while (!game.IsGameOver)
             {
-                if (!game.IsFoodOnField)
-                    game.GenerateFoodOnField(1, settings.FieldWidth - 1, 1, settings.FieldHeight - 1);
-
+                game.CheckFoodOnField();
                 graphics.DisplayFood(game.Food.Position.X, game.Food.Position.Y);
-                game.MoveSnake(settings.FieldWidth, settings.FieldHeight);
+
+                game.MoveSnake();
                 graphics.DisplaySnakeStep(game);
                 graphics.DisplayScoreUnderTheField(game.Score, settings.FieldWidth, settings.FieldHeight);
 
