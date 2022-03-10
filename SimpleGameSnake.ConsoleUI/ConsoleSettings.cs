@@ -8,9 +8,11 @@ namespace SimpleGameSnake.ConsoleUI
         {
             FieldWidth = 80;
             FieldHeight = 25;
+            ConsoleRefreshDelay = 100;
             ApplySettings();
         }
 
+        public int ConsoleRefreshDelay { get; private set; }
         public int FieldWidth { get; private set; }
         public int FieldHeight { get; private set; }
 

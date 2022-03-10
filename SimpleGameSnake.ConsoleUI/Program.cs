@@ -7,7 +7,6 @@ namespace SimpleGameSnake.ConsoleUI
 {
     internal class Program
     {
-        private const int UPDATEPERSECONDS = 100;
 
         private static GameManager _game;
 
@@ -48,7 +47,7 @@ namespace SimpleGameSnake.ConsoleUI
                 graphics.DisplaySnakeStep(snake, _game);
                 graphics.DisplayScoreUnderTheField(_game.Score, settings.FieldWidth, settings.FieldHeight);
 
-                await Task.Delay(UPDATEPERSECONDS);
+                await Task.Delay(settings.ConsoleRefreshDelay);
             }
         }
 

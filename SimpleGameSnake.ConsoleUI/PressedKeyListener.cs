@@ -23,21 +23,22 @@ namespace SimpleGameSnake.ConsoleUI
             while (!game.IsGameOver)
             {
                 var pressedKey = Console.ReadKey();
-                snake.ChangeDirection(GetDirectionByConsoleKey(pressedKey.Key));
+                snake.ChangeDirection(GetDirectionByConsoleKey(pressedKey.Key, snake.CurrentDirection));
                 Task.Delay(120).Wait();
             }
 
             return Task.CompletedTask;
         }
 
-        private Direction GetDirectionByConsoleKey(ConsoleKey key)
+        private Direction GetDirectionByConsoleKey(ConsoleKey key, Direction prevDirection)
         {
             return key switch
             {
                 ConsoleKey.UpArrow => Direction.Up,
                 ConsoleKey.DownArrow => Direction.Down,
                 ConsoleKey.LeftArrow => Direction.Left,
-                ConsoleKey.RightArrow => Direction.Right
+                ConsoleKey.RightArrow => Direction.Right,
+                _ => prevDirection
             };
         }
     }
