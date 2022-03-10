@@ -13,8 +13,8 @@ namespace SimpleGameSnake.ConsoleUI
 
         private const char VERTICAL_WALL_SYMBOL = '│';
         private const char HORIZONTAL_WALL_SYMBOL = '─';
-        private const char SNAKE_HEAD_TOP_SYMBOL = '^';
-        private const char SNAKE_HEAD_BOTTOM_SYMBOL = 'v';
+        private const char SNAKE_HEAD_UP_SYMBOL = '^';
+        private const char SNAKE_HEAD_DOWN_SYMBOL = 'v';
         private const char SNAKE_HEAD_LEFT_SYMBOL = '<';
         private const char SNAKE_HEAD_RIGHT_SYMBOL = '>';
         private const char SNAKE_BODY_SYMBOL = 'o';
@@ -100,8 +100,8 @@ namespace SimpleGameSnake.ConsoleUI
         {
             return direction switch
             {
-                Direction.Top => SNAKE_HEAD_TOP_SYMBOL,
-                Direction.Bottom => SNAKE_HEAD_BOTTOM_SYMBOL,
+                Direction.Up => SNAKE_HEAD_TOP_SYMBOL,
+                Direction.Down => SNAKE_HEAD_BOTTOM_SYMBOL,
                 Direction.Left => SNAKE_HEAD_LEFT_SYMBOL,
                 Direction.Right => SNAKE_HEAD_RIGHT_SYMBOL,
                 _ => '.',
@@ -142,13 +142,8 @@ namespace SimpleGameSnake.ConsoleUI
 
         private static void SelfBodyCheck(Snake snake)
         {
-            //var headPosition = snake.Head;
-            //snake.Body.Contains(headPosition);
             if (snake.Body.Contains(snake.Head))
                 _game.StopGame();
-
-            //if (snake.Head.Y == 0 || snake.Head.Y == FIELD_HEIGHT - 1)
-            // _game.StopGame();
         }
 
         private static bool FoodCheck(Snake snake)
@@ -177,10 +172,10 @@ namespace SimpleGameSnake.ConsoleUI
                 var key = Console.ReadKey();
 
                 if (key.Key == ConsoleKey.UpArrow)
-                    snake.ChangeDirection(Direction.Top);
+                    snake.ChangeDirection(Direction.Up);
 
                 if (key.Key == ConsoleKey.DownArrow)
-                    snake.ChangeDirection(Direction.Bottom);
+                    snake.ChangeDirection(Direction.Down);
 
                 if (key.Key == ConsoleKey.LeftArrow)
                     snake.ChangeDirection(Direction.Left);

@@ -38,10 +38,10 @@ namespace SimpleGameSnake.GameLibrary
 
         public void ChangeDirection(Direction newDirection)
         {
-            if (CurrentDirection == Direction.Top && newDirection == Direction.Bottom)
+            if (CurrentDirection == Direction.Up && newDirection == Direction.Down)
                 return;
 
-            if (CurrentDirection == Direction.Bottom && newDirection == Direction.Top)
+            if (CurrentDirection == Direction.Down && newDirection == Direction.Up)
                 return;
 
             if (CurrentDirection == Direction.Right && newDirection == Direction.Left)
@@ -59,10 +59,10 @@ namespace SimpleGameSnake.GameLibrary
 
             switch (CurrentDirection)
             {
-                case Direction.Top:
+                case Direction.Up:
                     _head.Y--;
                     break;
-                case Direction.Bottom:
+                case Direction.Down:
                     _head.Y++;
                     break;
                 case Direction.Left:
