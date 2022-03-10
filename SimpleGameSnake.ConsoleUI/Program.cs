@@ -100,8 +100,8 @@ namespace SimpleGameSnake.ConsoleUI
         {
             return direction switch
             {
-                Direction.Up => SNAKE_HEAD_TOP_SYMBOL,
-                Direction.Down => SNAKE_HEAD_BOTTOM_SYMBOL,
+                Direction.Up => SNAKE_HEAD_UP_SYMBOL,
+                Direction.Down => SNAKE_HEAD_DOWN_SYMBOL,
                 Direction.Left => SNAKE_HEAD_LEFT_SYMBOL,
                 Direction.Right => SNAKE_HEAD_RIGHT_SYMBOL,
                 _ => '.',
