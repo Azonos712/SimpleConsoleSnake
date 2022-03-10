@@ -1,10 +1,4 @@
 ﻿using SimpleGameSnake.GameLibrary;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace SimpleGameSnake.ConsoleUI
 {
@@ -29,9 +23,7 @@ namespace SimpleGameSnake.ConsoleUI
             while (!game.IsGameOver)
             {
                 var pressedKey = Console.ReadKey();
-
                 snake.ChangeDirection(GetDirectionByConsoleKey(pressedKey.Key));
-
                 Task.Delay(120).Wait();
             }
 

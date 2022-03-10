@@ -8,8 +8,6 @@ namespace SimpleGameSnake.ConsoleUI
     internal class Program
     {
         private const int UPDATEPERSECONDS = 100;
-        private const int FIELD_WIDTH = 80;
-        private const int FIELD_HEIGHT = 25;
 
         private const char VERTICAL_WALL_SYMBOL = '│';
         private const char HORIZONTAL_WALL_SYMBOL = '─';
@@ -24,9 +22,10 @@ namespace SimpleGameSnake.ConsoleUI
 
         static async Task Main(string[] args)
         {
-            Snake snake = new Snake(FIELD_WIDTH / 2, FIELD_HEIGHT / 2);
+            Snake snake = new Snake(ConsoleSettings.Instance.FieldWidth / 2, ConsoleSettings.Instance.FieldHeight / 2);
             _game = new GameManager();
-            ConsoleSettingUp();
+
+            ConsoleSettings.Instance.SettingUpConsole();
 
             Console.WriteLine("Press any key to start...");
             Console.ReadKey();
@@ -54,28 +53,21 @@ namespace SimpleGameSnake.ConsoleUI
 
         private static void GenerateFood()
         {
-            _game.CreateFood(1, FIELD_WIDTH - 1, 1, FIELD_HEIGHT - 1);
+            _game.CreateFood(1, ConsoleSettings.Instance.FieldWidth - 1, 1, ConsoleSettings.Instance.FieldHeight - 1);
         }
 
-        private static void ConsoleSettingUp()
-        {
-            //Console.BackgroundColor = ConsoleColor.Green;
-            //Console.ForegroundColor = ConsoleColor.Black;
-            Console.OutputEncoding = Encoding.UTF8;
-            Console.SetWindowSize(FIELD_WIDTH, FIELD_HEIGHT + 4);
-            Console.CursorVisible = false;
-        }
+
 
         private static void ShowField()
         {
-            for (int i = 0; i < FIELD_HEIGHT; i++)
+            for (int i = 0; i < ConsoleSettings.Instance.FieldHeight; i++)
             {
-                for (int j = 0; j < FIELD_WIDTH; j++)
+                for (int j = 0; j < ConsoleSettings.Instance.FieldWidth; j++)
                 {
-                    if (i == 0 || i == FIELD_HEIGHT - 1)
+                    if (i == 0 || i == ConsoleSettings.Instance.FieldHeight - 1)
                         DisplaySymbol(j, i, HORIZONTAL_WALL_SYMBOL);
 
-                    if (j == 0 || j == FIELD_WIDTH - 1)
+                    if (j == 0 || j == ConsoleSettings.Instance.FieldWidth - 1)
                         DisplaySymbol(j, i, VERTICAL_WALL_SYMBOL);
 
                 }
@@ -133,10 +125,10 @@ namespace SimpleGameSnake.ConsoleUI
 
         private static void ScreenEdgeCheck(Snake snake)
         {
-            if (snake.Head.X == 0 || snake.Head.X == FIELD_WIDTH - 1)
+            if (snake.Head.X == 0 || snake.Head.X == ConsoleSettings.Instance.FieldWidth - 1)
                 _game.StopGame();
 
-            if (snake.Head.Y == 0 || snake.Head.Y == FIELD_HEIGHT - 1)
+            if (snake.Head.Y == 0 || snake.Head.Y == ConsoleSettings.Instance.FieldHeight - 1)
                 _game.StopGame();
         }
 
@@ -161,10 +153,8 @@ namespace SimpleGameSnake.ConsoleUI
 
         private static void ShowScore()
         {
-            Console.SetCursorPosition(3, FIELD_HEIGHT + 1);
+            Console.SetCursorPosition(3, ConsoleSettings.Instance.FieldHeight + 1);
             Console.WriteLine($"Score - {_game.Score}");
         }
-
-
     }
 }
