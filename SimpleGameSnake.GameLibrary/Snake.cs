@@ -15,9 +15,11 @@
             _head = new Point(headX, headY);
             TailLength = 2;
 
-            Body = new List<Point>();
-            Body.Add(new Point(headX - (TailLength - 1), Head.Y));
-            Body.Add(new Point(headX - TailLength, Head.Y));
+            Body = new List<Point>
+            {
+                new Point(headX - (TailLength - 1), Head.Y),
+                new Point(headX - TailLength, Head.Y)
+            };
 
             CurrentDirection = Direction.Right;
         }
@@ -59,6 +61,7 @@
             Body.RemoveAt(Body.Count - 1);
             Body.Insert(0, PrevHead);
         }
+
         public bool IsReachTheEndOfField(int width, int height)
         {
             return _head.X == 0 || _head.X == width - 1 || _head.Y == 0 || _head.Y == height - 1;
@@ -76,6 +79,7 @@
                 Eat();
                 return true;
             }
+
             return false;
         }
 

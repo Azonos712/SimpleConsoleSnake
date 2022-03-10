@@ -10,7 +10,7 @@ namespace SimpleGameSnake.GameLibrary
     {
         public Point Position { get; private set; }
         public int Value { get; private set; }
-        private Random _random;
+        private readonly Random _random;
 
         public Food(int value)
         {

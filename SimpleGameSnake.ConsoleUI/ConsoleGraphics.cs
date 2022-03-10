@@ -28,7 +28,7 @@ namespace SimpleGameSnake.ConsoleUI
             }
         }
 
-        private void DisplaySymbol(int x, int y, char symbol)
+        private static void DisplaySymbol(int x, int y, char symbol)
         {
             Console.SetCursorPosition(x, y);
             Console.Write(symbol);

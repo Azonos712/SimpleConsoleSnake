@@ -4,11 +4,11 @@ namespace SimpleGameSnake.ConsoleUI
 {
     internal class Program
     {
-        static async Task Main(string[] args)
+        static async Task Main()
         {
-            ConsoleSettings settings = new ConsoleSettings();
-            ConsoleGraphics graphics = new ConsoleGraphics();
-            GameManager game = new GameManager(settings.FieldWidth, settings.FieldHeight);
+            ConsoleSettings settings = new();
+            ConsoleGraphics graphics = new();
+            GameManager game = new(settings.FieldWidth, settings.FieldHeight);
 
             Console.WriteLine("Press any key to start...");
             Console.ReadKey();
