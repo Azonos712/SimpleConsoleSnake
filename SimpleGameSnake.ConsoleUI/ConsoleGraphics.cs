@@ -19,7 +19,7 @@ namespace SimpleGameSnake.ConsoleUI
         public readonly char SnakeBodySymbol = 'o';
         public readonly char FoodSymbol = '@';
 
-        public void ShowField(int width, int height)
+        public void DisplayField(int width, int height)
         {
             for (int i = 0; i < height; i++)
             {
@@ -40,7 +40,7 @@ namespace SimpleGameSnake.ConsoleUI
             Console.Write(symbol);
         }
 
-        public void ShowSnake(Snake snake)
+        public void DisplaySnake(Snake snake)
         {
             DisplaySymbol(snake.Head.X, snake.Head.Y, GetHeadSymbolByDirection(snake.CurrentDirection));
 
@@ -60,12 +60,12 @@ namespace SimpleGameSnake.ConsoleUI
             };
         }
 
-        public void ShowFood(int x, int y)
+        public void DisplayFood(int x, int y)
         {
             DisplaySymbol(x, y, FoodSymbol);
         }
 
-        public void ShowSnakeStep(Snake snake, GameManager game)
+        public void DisplaySnakeStep(Snake snake, GameManager game)
         {
             if (game.IsGameOver)
             {
@@ -79,7 +79,7 @@ namespace SimpleGameSnake.ConsoleUI
                 DisplaySymbol(snake.LastPart.X, snake.LastPart.Y, ' ');
         }
 
-        public void ShowScoreUnderTheField(int score, int width, int height)
+        public void DisplayScoreUnderTheField(int score, int width, int height)
         {
             Console.SetCursorPosition(3, height + 1);
             Console.WriteLine($"Score - {score}");

@@ -31,8 +31,8 @@ namespace SimpleGameSnake.ConsoleUI
         private static void StartGame(ConsoleSettings settings, ConsoleGraphics graphics, Snake snake)
         {
             Console.Clear();
-            graphics.ShowField(settings.FieldWidth, settings.FieldHeight);
-            graphics.ShowSnake(snake);
+            graphics.DisplayField(settings.FieldWidth, settings.FieldHeight);
+            graphics.DisplaySnake(snake);
             Task.Run(() => PressedKeyListener.Instance.ListenKeys(_game, snake));
         }
 
@@ -43,10 +43,10 @@ namespace SimpleGameSnake.ConsoleUI
                 if (!_game.IsFoodOnField)
                     GenerateFoodOnField(settings.FieldWidth, settings.FieldHeight);
 
-                graphics.ShowFood(_game.Food.Position.X, _game.Food.Position.Y);
+                graphics.DisplayFood(_game.Food.Position.X, _game.Food.Position.Y);
                 MoveSnake(snake, settings.FieldWidth, settings.FieldHeight);
-                graphics.ShowSnakeStep(snake, _game);
-                graphics.ShowScoreUnderTheField(_game.Score, settings.FieldWidth, settings.FieldHeight);
+                graphics.DisplaySnakeStep(snake, _game);
+                graphics.DisplayScoreUnderTheField(_game.Score, settings.FieldWidth, settings.FieldHeight);
 
                 await Task.Delay(UPDATEPERSECONDS);
             }
