@@ -7,7 +7,7 @@ namespace SimpleGameSnake.ConsoleUI
 {
     internal class Program
     {
-        private const int UPDATEPERSECONDS = 150;
+        private const int UPDATEPERSECONDS = 100;
         private const int FIELD_WIDTH = 80;
         private const int FIELD_HEIGHT = 25;
 
@@ -27,6 +27,10 @@ namespace SimpleGameSnake.ConsoleUI
             Snake snake = new Snake(FIELD_WIDTH / 2, FIELD_HEIGHT / 2);
             _game = new GameManager();
             ConsoleSettingUp();
+
+            Console.WriteLine("Press any key to start...");
+            Console.ReadKey();
+
             Console.Clear();
             ShowField();
             ShowSnake(snake);
@@ -110,11 +114,16 @@ namespace SimpleGameSnake.ConsoleUI
 
             ScreenEdgeCheck(snake);
 
+            SelfBodyCheck(snake);
+
             var foodHasBeenEaten = FoodCheck(snake);
 
-            if (_game.IsGameOver)
-                return;
 
+            if (_game.IsGameOver)
+            {
+                DisplaySymbol(snake.PrevHead.X, snake.PrevHead.Y, SelectHeadSymbol(snake.CurrentDirection));
+                return;
+            }
 
             DisplaySymbol(snake.Head.X, snake.Head.Y, SelectHeadSymbol(snake.CurrentDirection));
             DisplaySymbol(snake.PrevHead.X, snake.PrevHead.Y, SNAKE_BODY_SYMBOL);
@@ -131,13 +140,24 @@ namespace SimpleGameSnake.ConsoleUI
                 _game.StopGame();
         }
 
+        private static void SelfBodyCheck(Snake snake)
+        {
+            //var headPosition = snake.Head;
+            //snake.Body.Contains(headPosition);
+            if (snake.Body.Contains(snake.Head))
+                _game.StopGame();
+
+            //if (snake.Head.Y == 0 || snake.Head.Y == FIELD_HEIGHT - 1)
+            // _game.StopGame();
+        }
+
         private static bool FoodCheck(Snake snake)
         {
             if (snake.Head.X == _game.Food.Position.X && snake.Head.Y == _game.Food.Position.Y)
             {
                 _game.PutAwayFood();
                 snake.Eat();
-                
+
                 return true;
             }
 
@@ -167,6 +187,8 @@ namespace SimpleGameSnake.ConsoleUI
 
                 if (key.Key == ConsoleKey.RightArrow)
                     snake.ChangeDirection(Direction.Right);
+
+                Task.Delay(120).Wait();
             }
 
             return Task.CompletedTask;
