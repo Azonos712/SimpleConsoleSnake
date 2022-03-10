@@ -22,16 +22,18 @@ namespace SimpleGameSnake.ConsoleUI
 
         static async Task Main(string[] args)
         {
-            Snake snake = new Snake(ConsoleSettings.Instance.FieldWidth / 2, ConsoleSettings.Instance.FieldHeight / 2);
-            _game = new GameManager();
+            ConsoleSettings settings = new ConsoleSettings();
+            settings.ApplySettings();
 
-            ConsoleSettings.Instance.SettingUpConsole();
+            Snake snake = new Snake(settings.FieldWidth / 2, settings.FieldHeight / 2);
+
+            _game = new GameManager();
 
             Console.WriteLine("Press any key to start...");
             Console.ReadKey();
 
             Console.Clear();
-            ShowField();
+            ShowField(settings.FieldWidth, settings.FieldHeight);
             ShowSnake(snake);
 
             Task.Run(() => PressedKeyListener.Instance.ListenKeys(_game, snake));
@@ -39,35 +41,38 @@ namespace SimpleGameSnake.ConsoleUI
             while (!_game.IsGameOver)
             {
                 if (_game.IsFoodOnField == false)
-                    GenerateFood();
+                    GenerateFoodOnField(settings.FieldWidth, settings.FieldHeight);
 
                 DisplaySymbol(_game.Food.Position.X, _game.Food.Position.Y, FOOD_SYMBOL);
 
-                MoveSnake(snake);
+                MoveSnake(snake, settings.FieldWidth, settings.FieldHeight);
 
-                ShowScore();
+                ShowScoreUnderTheField(settings.FieldWidth, settings.FieldHeight);
 
                 await Task.Delay(UPDATEPERSECONDS);
             }
+
+            Console.WriteLine("Game Over");
+            Console.ReadKey();
         }
 
-        private static void GenerateFood()
+        private static void GenerateFoodOnField(int width, int height)
         {
-            _game.CreateFood(1, ConsoleSettings.Instance.FieldWidth - 1, 1, ConsoleSettings.Instance.FieldHeight - 1);
+            _game.CreateFood(1, width - 1, 1, height - 1);
         }
 
 
 
-        private static void ShowField()
+        private static void ShowField(int width, int height)
         {
-            for (int i = 0; i < ConsoleSettings.Instance.FieldHeight; i++)
+            for (int i = 0; i < height; i++)
             {
-                for (int j = 0; j < ConsoleSettings.Instance.FieldWidth; j++)
+                for (int j = 0; j < width; j++)
                 {
-                    if (i == 0 || i == ConsoleSettings.Instance.FieldHeight - 1)
+                    if (i == 0 || i == height - 1)
                         DisplaySymbol(j, i, HORIZONTAL_WALL_SYMBOL);
 
-                    if (j == 0 || j == ConsoleSettings.Instance.FieldWidth - 1)
+                    if (j == 0 || j == width - 1)
                         DisplaySymbol(j, i, VERTICAL_WALL_SYMBOL);
 
                 }
@@ -100,11 +105,11 @@ namespace SimpleGameSnake.ConsoleUI
             };
         }
 
-        private static void MoveSnake(Snake snake)
+        private static void MoveSnake(Snake snake, int width, int height)
         {
             snake.MoveSnake();
 
-            ScreenEdgeCheck(snake);
+            ScreenEdgeCheck(snake, width, height);
 
             SelfBodyCheck(snake);
 
@@ -123,12 +128,12 @@ namespace SimpleGameSnake.ConsoleUI
                 DisplaySymbol(snake.LastPart.X, snake.LastPart.Y, ' ');
         }
 
-        private static void ScreenEdgeCheck(Snake snake)
+        private static void ScreenEdgeCheck(Snake snake, int width, int height)
         {
-            if (snake.Head.X == 0 || snake.Head.X == ConsoleSettings.Instance.FieldWidth - 1)
+            if (snake.Head.X == 0 || snake.Head.X == width - 1)
                 _game.StopGame();
 
-            if (snake.Head.Y == 0 || snake.Head.Y == ConsoleSettings.Instance.FieldHeight - 1)
+            if (snake.Head.Y == 0 || snake.Head.Y == height - 1)
                 _game.StopGame();
         }
 
@@ -151,9 +156,9 @@ namespace SimpleGameSnake.ConsoleUI
             return false;
         }
 
-        private static void ShowScore()
+        private static void ShowScoreUnderTheField(int width, int height)
         {
-            Console.SetCursorPosition(3, ConsoleSettings.Instance.FieldHeight + 1);
+            Console.SetCursorPosition(3, height + 1);
             Console.WriteLine($"Score - {_game.Score}");
         }
     }

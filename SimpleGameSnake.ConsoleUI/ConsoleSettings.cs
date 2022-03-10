@@ -4,24 +4,16 @@ namespace SimpleGameSnake.ConsoleUI
 {
     public class ConsoleSettings
     {
-        private static ConsoleSettings _instance;
-
-        private ConsoleSettings() { }
-
-        public static ConsoleSettings Instance
+        public ConsoleSettings()
         {
-            get
-            {
-                if (_instance == null)
-                    _instance = new ConsoleSettings();
-                return _instance;
-            }
+            FieldWidth = 80;
+            FieldHeight = 25;
         }
 
-        public int FieldWidth { get; private set; } = 80;
-        public int FieldHeight { get; private set; } = 25;
+        public int FieldWidth { get; private set; }
+        public int FieldHeight { get; private set; }
 
-        public void SettingUpConsole()
+        public void ApplySettings()
         {
             //Console.BackgroundColor = ConsoleColor.Green;
             //Console.ForegroundColor = ConsoleColor.Black;
