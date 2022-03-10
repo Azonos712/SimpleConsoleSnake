@@ -33,7 +33,7 @@ namespace SimpleGameSnake.GameLibrary
 
         public void Eat()
         {
-
+            Body.Add(LastPart);
         }
 
         public void ChangeDirection(Direction newDirection)

@@ -110,14 +110,16 @@ namespace SimpleGameSnake.ConsoleUI
 
             ScreenEdgeCheck(snake);
 
-            FoodCheck(snake);
+            var foodHasBeenEaten = FoodCheck(snake);
 
             if (_game.IsGameOver)
                 return;
 
+
             DisplaySymbol(snake.Head.X, snake.Head.Y, SelectHeadSymbol(snake.CurrentDirection));
             DisplaySymbol(snake.PrevHead.X, snake.PrevHead.Y, SNAKE_BODY_SYMBOL);
-            DisplaySymbol(snake.LastPart.X, snake.LastPart.Y, ' ');
+            if (!foodHasBeenEaten)
+                DisplaySymbol(snake.LastPart.X, snake.LastPart.Y, ' ');
         }
 
         private static void ScreenEdgeCheck(Snake snake)
@@ -129,14 +131,17 @@ namespace SimpleGameSnake.ConsoleUI
                 _game.StopGame();
         }
 
-        private static void FoodCheck(Snake snake)
+        private static bool FoodCheck(Snake snake)
         {
             if (snake.Head.X == _game.Food.Position.X && snake.Head.Y == _game.Food.Position.Y)
             {
                 _game.PutAwayFood();
                 snake.Eat();
+                
+                return true;
             }
 
+            return false;
         }
 
         private static void ShowScore()
