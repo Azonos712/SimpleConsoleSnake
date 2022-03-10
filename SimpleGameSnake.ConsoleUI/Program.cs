@@ -23,45 +23,26 @@ namespace SimpleGameSnake.ConsoleUI
         static async Task Main(string[] args)
         {
             ConsoleSettings settings = new ConsoleSettings();
-            settings.ApplySettings();
-
             Snake snake = new Snake(settings.FieldWidth / 2, settings.FieldHeight / 2);
-
             _game = new GameManager();
 
             Console.WriteLine("Press any key to start...");
             Console.ReadKey();
 
-            Console.Clear();
-            ShowField(settings.FieldWidth, settings.FieldHeight);
-            ShowSnake(snake);
-
-            Task.Run(() => PressedKeyListener.Instance.ListenKeys(_game, snake));
-
-            while (!_game.IsGameOver)
-            {
-                if (_game.IsFoodOnField == false)
-                    GenerateFoodOnField(settings.FieldWidth, settings.FieldHeight);
-
-                DisplaySymbol(_game.Food.Position.X, _game.Food.Position.Y, FOOD_SYMBOL);
-
-                MoveSnake(snake, settings.FieldWidth, settings.FieldHeight);
-
-                ShowScoreUnderTheField(settings.FieldWidth, settings.FieldHeight);
-
-                await Task.Delay(UPDATEPERSECONDS);
-            }
+            StartGame(settings, snake);
+            await MainLoop(settings, snake);
 
             Console.WriteLine("Game Over");
             Console.ReadKey();
         }
 
-        private static void GenerateFoodOnField(int width, int height)
+        private static void StartGame(ConsoleSettings settings, Snake snake)
         {
-            _game.CreateFood(1, width - 1, 1, height - 1);
+            Console.Clear();
+            ShowField(settings.FieldWidth, settings.FieldHeight);
+            ShowSnake(snake);
+            Task.Run(() => PressedKeyListener.Instance.ListenKeys(_game, snake));
         }
-
-
 
         private static void ShowField(int width, int height)
         {
@@ -74,7 +55,6 @@ namespace SimpleGameSnake.ConsoleUI
 
                     if (j == 0 || j == width - 1)
                         DisplaySymbol(j, i, VERTICAL_WALL_SYMBOL);
-
                 }
             }
         }
@@ -91,6 +71,26 @@ namespace SimpleGameSnake.ConsoleUI
 
             for (int i = 1; i <= snake.TailLength; i++)
                 DisplaySymbol(snake.Head.X - i, snake.Head.Y, SNAKE_BODY_SYMBOL);
+        }
+
+        private static async Task MainLoop(ConsoleSettings settings, Snake snake)
+        {
+            while (!_game.IsGameOver)
+            {
+                if (!_game.IsFoodOnField)
+                    GenerateFoodOnField(settings.FieldWidth, settings.FieldHeight);
+
+                DisplaySymbol(_game.Food.Position.X, _game.Food.Position.Y, FOOD_SYMBOL);
+                MoveSnake(snake, settings.FieldWidth, settings.FieldHeight);
+                ShowScoreUnderTheField(settings.FieldWidth, settings.FieldHeight);
+
+                await Task.Delay(UPDATEPERSECONDS);
+            }
+        }
+
+        private static void GenerateFoodOnField(int width, int height)
+        {
+            _game.CreateFood(1, width - 1, 1, height - 1);
         }
 
         private static char GetHeadSymbolByDirection(Direction direction)
@@ -114,7 +114,6 @@ namespace SimpleGameSnake.ConsoleUI
             SelfBodyCheck(snake);
 
             var foodHasBeenEaten = FoodCheck(snake);
-
 
             if (_game.IsGameOver)
             {

@@ -8,6 +8,7 @@ namespace SimpleGameSnake.ConsoleUI
         {
             FieldWidth = 80;
             FieldHeight = 25;
+            ApplySettings();
         }
 
         public int FieldWidth { get; private set; }
