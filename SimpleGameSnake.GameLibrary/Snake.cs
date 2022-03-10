@@ -38,19 +38,22 @@ namespace SimpleGameSnake.GameLibrary
 
         public void ChangeDirection(Direction newDirection)
         {
-            if (CurrentDirection == Direction.Up && newDirection == Direction.Down)
-                return;
-
-            if (CurrentDirection == Direction.Down && newDirection == Direction.Up)
-                return;
-
-            if (CurrentDirection == Direction.Right && newDirection == Direction.Left)
-                return;
-
-            if (CurrentDirection == Direction.Left && newDirection == Direction.Right)
+            if (!IsPossibleToChangeDirection(newDirection))
                 return;
 
             CurrentDirection = newDirection;
+        }
+
+        private bool IsPossibleToChangeDirection(Direction newDirection)
+        {
+            return newDirection switch
+            {
+                Direction.Down when CurrentDirection == Direction.Up => false,
+                Direction.Up when CurrentDirection == Direction.Down => false,
+                Direction.Left when CurrentDirection == Direction.Right => false,
+                Direction.Right when CurrentDirection == Direction.Left => false,
+                _ => true
+            };
         }
 
         public void MoveSnake()
