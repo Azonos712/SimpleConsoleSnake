@@ -5,32 +5,34 @@
         public bool IsGameOver { get; private set; }
         public bool IsFoodOnField { get; private set; }
         public int Score { get; private set; }
-        public Food Food { get; private set; }
+        public Food Food { get; init; }
+        public Snake Snake { get; init; }
 
-        public GameManager()
+        public GameManager(int x, int y)
         {
+            Snake = new Snake(x, y);
             IsGameOver = false;
             Score = 0;
             Food = new Food(1);
         }
 
-        public void MoveSnake(Snake snake, int width, int height)
+        public void MoveSnake(int width, int height)
         {
-            snake.MoveSnake();
+            Snake.MoveSnake();
 
-            ScreenEdgeCheck(snake, width, height);
+            ScreenEdgeCheck(width, height);
 
-            SelfBodyCheck(snake);
+            SelfBodyCheck();
 
-            FoodCheck(snake);
+            FoodCheck();
         }
 
-        private void ScreenEdgeCheck(Snake snake, int width, int height)
+        private void ScreenEdgeCheck(int width, int height)
         {
-            if (snake.Head.X == 0 || snake.Head.X == width - 1)
+            if (Snake.Head.X == 0 || Snake.Head.X == width - 1)
                 StopGame();
 
-            if (snake.Head.Y == 0 || snake.Head.Y == height - 1)
+            if (Snake.Head.Y == 0 || Snake.Head.Y == height - 1)
                 StopGame();
         }
 
@@ -39,18 +41,18 @@
             IsGameOver = true;
         }
 
-        private void SelfBodyCheck(Snake snake)
+        private void SelfBodyCheck()
         {
-            if (snake.Body.Contains(snake.Head))
+            if (Snake.Body.Contains(Snake.Head))
                 StopGame();
         }
 
-        private void FoodCheck(Snake snake)
+        private void FoodCheck()
         {
-            if (snake.Head.X == Food.Position.X && snake.Head.Y == Food.Position.Y)
+            if (Snake.Head.X == Food.Position.X && Snake.Head.Y == Food.Position.Y)
             {
                 PutAwayFoodFromField();
-                snake.Eat();
+                Snake.Eat();
             }
         }
 

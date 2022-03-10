@@ -59,8 +59,9 @@ namespace SimpleGameSnake.ConsoleUI
             DisplaySymbol(x, y, FoodSymbol);
         }
 
-        public void DisplaySnakeStep(Snake snake, GameManager game)
+        public void DisplaySnakeStep(GameManager game)
         {
+            var snake = game.Snake;
             if (game.IsGameOver)
             {
                 DisplaySymbol(snake.PrevHead.X, snake.PrevHead.Y, GetHeadSymbolByDirection(snake.CurrentDirection));
