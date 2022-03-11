@@ -25,7 +25,7 @@ namespace SimpleGameSnake.ConsoleUI
             Console.Clear();
             graphics.DisplayField(settings.FieldWidth, settings.FieldHeight);
             graphics.DisplaySnake(game.Snake);
-            Task.Run(() => PressedKeyListener.Instance.ListenKeys(game));
+            Task.Run(() => PressedKeyListener.Instance.ListenKeys(game, settings));
         }
 
         private static async Task MainLoop(GameManager game, ConsoleSettings settings, ConsoleGraphics graphics)

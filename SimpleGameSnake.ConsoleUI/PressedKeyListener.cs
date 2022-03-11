@@ -18,13 +18,13 @@ namespace SimpleGameSnake.ConsoleUI
             }
         }
 
-        public Task ListenKeys(GameManager game)
+        public Task ListenKeys(GameManager game, ConsoleSettings settings)
         {
             while (!game.IsGameOver)
             {
                 var pressedKey = Console.ReadKey();
                 game.Snake.ChangeDirection(GetDirectionByConsoleKey(pressedKey.Key, game.Snake.CurrentDirection));
-                Task.Delay(120).Wait();
+                Task.Delay(settings.ConsoleRefreshDelay + 30).Wait();
             }
 
             return Task.CompletedTask;
