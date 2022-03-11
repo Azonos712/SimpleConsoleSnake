@@ -1,5 +1,10 @@
 # Application "Snake-Game"
 
+![Language](https://img.shields.io/badge/language-C%23-%23178600)
+![Release](https://img.shields.io/github/v/release/Azonos712/SimpleConsoleSnake)
+![GitHub all releases](https://img.shields.io/github/downloads/Azonos712/SimpleConsoleSnake/total)
+![License](https://img.shields.io/github/license/Azonos712/SimpleConsoleSnake)
+
 ## About
 
 This program is a simple implementation of the classic game "Snake" in the console.
