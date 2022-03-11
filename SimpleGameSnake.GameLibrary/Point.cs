@@ -10,8 +10,8 @@ namespace SimpleGameSnake.GameLibrary
     [DebuggerDisplay("X: {X}, Y: {Y}")]
     public struct Point
     {
-        public int X { get; set; }
-        public int Y { get; set; }
+        public int X { get; init; }
+        public int Y { get; init; }
         public Point(int x, int y)
         {
             X = x;

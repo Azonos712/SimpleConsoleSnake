@@ -2,8 +2,7 @@
 {
     public class Snake
     {
-        private Point _head;
-        public Point Head { get => _head; }
+        public Point Head { get; private set; }
         public List<Point> Body { get; private set; }
         public Point PrevHead { get; private set; }
         public Point LastPart { get; private set; }
@@ -12,7 +11,7 @@
 
         public Snake(int headX, int headY)
         {
-            _head = new Point(headX, headY);
+            Head = new Point(headX, headY);
             TailLength = 2;
 
             Body = new List<Point>
@@ -50,10 +49,10 @@
 
             _ = CurrentDirection switch
             {
-                Direction.Up => _head.Y--,
-                Direction.Down => _head.Y++,
-                Direction.Left => _head.X--,
-                Direction.Right => _head.X++,
+                Direction.Up => Head = new Point(Head.X, Head.Y - 1),
+                Direction.Down => Head = new Point(Head.X, Head.Y + 1),
+                Direction.Left => Head = new Point(Head.X - 1, Head.Y),
+                Direction.Right => Head = new Point(Head.X + 1, Head.Y),
                 _ => throw new NotImplementedException()
             };
 
@@ -64,17 +63,17 @@
 
         public bool IsReachTheEndOfField(int width, int height)
         {
-            return _head.X == 0 || _head.X == width - 1 || _head.Y == 0 || _head.Y == height - 1;
+            return Head.X == 0 || Head.X == width - 1 || Head.Y == 0 || Head.Y == height - 1;
         }
 
         public bool IsCrashIntoBody()
         {
-            return Body.Contains(_head);
+            return Body.Contains(Head);
         }
 
         public bool IsFoodAhead(int x, int y)
         {
-            if (_head.X == x && _head.Y == y)
+            if (Head.X == x && Head.Y == y)
             {
                 Eat();
                 return true;
