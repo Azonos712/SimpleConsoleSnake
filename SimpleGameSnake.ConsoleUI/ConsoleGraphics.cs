@@ -36,10 +36,12 @@ namespace SimpleGameSnake.ConsoleUI
 
         public void DisplaySnake(Snake snake)
         {
+            Console.ForegroundColor = ConsoleColor.Green;
             DisplaySymbol(snake.Head.X, snake.Head.Y, GetHeadSymbolByDirection(snake.CurrentDirection));
 
             for (int i = 1; i <= snake.TailLength; i++)
                 DisplaySymbol(snake.Head.X - i, snake.Head.Y, SnakeBodySymbol);
+            Console.ResetColor();
         }
 
         private char GetHeadSymbolByDirection(Direction direction)
@@ -56,15 +58,19 @@ namespace SimpleGameSnake.ConsoleUI
 
         public void DisplayFood(int x, int y)
         {
+            Console.ForegroundColor = ConsoleColor.Red;
             DisplaySymbol(x, y, FoodSymbol);
+            Console.ResetColor();
         }
 
         public void DisplaySnakeStep(GameManager game)
         {
+            Console.ForegroundColor = ConsoleColor.Green;
             var snake = game.Snake;
             if (game.IsGameOver)
             {
                 DisplaySymbol(snake.PrevHead.X, snake.PrevHead.Y, GetHeadSymbolByDirection(snake.CurrentDirection));
+                Console.ResetColor();
                 return;
             }
 
@@ -72,11 +78,12 @@ namespace SimpleGameSnake.ConsoleUI
             DisplaySymbol(snake.PrevHead.X, snake.PrevHead.Y, SnakeBodySymbol);
             if (game.IsFoodOnField)
                 DisplaySymbol(snake.LastPart.X, snake.LastPart.Y, ' ');
+            Console.ResetColor();
         }
 
         public void DisplayScoreUnderTheField(int score, int width, int height)
         {
-            Console.SetCursorPosition(3, height + 1);
+            Console.SetCursorPosition(0, height + 1);
             Console.WriteLine($"Score - {score}");
         }
     }
